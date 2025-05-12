@@ -1,5 +1,5 @@
 import React from 'react'
-import logo from '../assets/image/logo.png'
+import logo from '/public/image/logo.png'
 
 const Colloquy = () => {
   return (

@@ -2,6 +2,11 @@
 
 @theme {
   --color-praimary: #309898;
+  --color-secendary: #111B21;
+  --color-subcolor: #202C33;
+  --color-ulhover: #0A332C;
+  --color-ultext: #00A884;
+  --color-1: #2A3942;
   
   --font-Poppins: "Poppins", sans-serif;
 }
