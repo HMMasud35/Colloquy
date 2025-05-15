@@ -32,7 +32,7 @@ const Sign_up = () => {
   const handleSignup = (e) => {
     e.preventDefault();
     if (!userInfo.name || !userInfo.email || !userInfo.password ) {
-      alert("all file add")
+      alert("all file add dd")
     }
   }
 
