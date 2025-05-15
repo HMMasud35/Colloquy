@@ -15,26 +15,26 @@ const Sign_up = () => {
     setUserInfo((prev) => {
       return { ...prev, name: e.target.value }
     })
-  };
+  }
 
   let handleEmail = (e) => {
     setUserInfo((prev) => {
       return { ...prev, email: e.target.value }
     })
-  };
+  }
 
   let handlePassword = (e) => {
     setUserInfo((prev) => {
       return { ...prev, password: e.target.value }
     })
-  };
+  }
 
   const handleSignup = (e) => {
     e.preventDefault();
     if (!userInfo.name || !userInfo.email || !userInfo.password ) {
-      alert("all")
+      alert("all file add")
     }
-  };
+  }
 
   return (
     <div className='flex'>
