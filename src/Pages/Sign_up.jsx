@@ -10,27 +10,27 @@ const Sign_up = () => {
     name: "",
     email: "",
     password: "",
-  })
+  });
 
 
 
   const handleUser = (e) => {
     setUserInfo((prev) => {
-      return { ...prev, name: e.target.value }
-    })
-  }
+      return { ...prev, name: e.target.value };
+    });
+  };
 
   let handleEmail = (e) => {
     setUserInfo((prev) => {
-      return { ...prev, email: e.target.value }
-    })
-  }
+      return { ...prev, email: e.target.value };
+    });
+  };
 
   let handlePassword = (e) => {
     setUserInfo((prev) => {
-      return { ...prev, password: e.target.value }
-    })
-  }
+      return { ...prev, password: e.target.value };
+    });
+  };
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -101,10 +101,18 @@ const Sign_up = () => {
             <input onChange={handlePassword} className='absolute w-full text-white/80 bg-transparent h-full text-2xl outline-none peer' type="password" id='password' />
             <label className='text-xl text-black font-medium duration-400 top-3 absolute peer-focus:translate-y-[-35px] peer-valid:translate-y-[-35px]' htmlFor="password">Create Password</label>
           </div>
-          <div className='flex justify-between mt-5'>
-            <label className='text-xl' htmlFor=""><input className='mr-1' type="checkbox" />I agree to the terms & conditions</label>
+          <div className="flex justify-between mt-5">
+            <label className="text-xl" htmlFor="">
+              <input className="mr-1" type="checkbox" />I agree to the terms &
+              conditions
+            </label>
           </div>
-          <button type="submit" className='w-full py-5 my-8 bg-black rounded-md text-3xl text-white font-semibold'>Sign up</button>
+          <button
+            type="submit"
+            className="w-full py-5 my-8 bg-black rounded-md text-3xl text-white font-semibold cursor-pointer"
+          >
+            Sign up
+          </button>
           <div>
             <p className='text-center text-xl'>Already have an account <Link to={"/"} className='font-semibold hover:underline ml-2' href="">Login</Link></p>
           </div>
@@ -112,7 +120,7 @@ const Sign_up = () => {
       </div>
       <Colloquy />
     </div>
-  )
-}
+  );
+};
 
-export default Sign_up
+export default Sign_up;

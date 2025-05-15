@@ -74,7 +74,7 @@ const Login = () => {
             <label className='text-xl text-black font-medium duration-400 top-3 absolute peer-focus:translate-y-[-25px] peer-valid:translate-y-[-25px]' For="password">Password</label>
           </div>
           <div className='flex justify-between mt-5'>
-            <label className='text-xl' for=""><input className='mr-1' type="checkbox" />Remember me</label>
+            <label className='text-xl' htmlFor=""><input className='mr-1' type="checkbox" />Remember me</label>
             <a className='hover:underline text-xl' href="">Forgot password</a>
           </div>
           <button type="submit" className='w-full py-5 my-8 bg-black rounded-md text-3xl text-white font-semibold'>Login</button>
