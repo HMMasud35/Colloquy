@@ -13,15 +13,15 @@ const Login = () => {
           <div className='relative w-full h-12.5 border-b-2 border-[#000b13] my-10'>
             <MdEmail className='absolute right-2 text-2xl top-4' />
             <input className='absolute w-full text-white bg-transparent h-full text-xl outline-none peer' type="email" id='email' required />
-            <label className='text-xl text-black font-medium duration-400 top-3 absolute peer-focus:translate-y-[-25px] peer-valid:translate-y-[-25px]' For="email">Email</label>
+            <label className='text-xl text-black font-medium duration-400 top-3 absolute peer-focus:translate-y-[-25px] peer-valid:translate-y-[-25px]' htmlFor="email">Email</label>
           </div>
           <div className='relative w-full h-12.5 border-b-2 border-[#000b13] my-8 mb-2'>
             <FaRegEyeSlash className='absolute right-2 text-2xl top-4' />
             <input className='absolute w-full text-white bg-transparent h-full text-xl outline-none peer' type="password" id='password' required />
-            <label className='text-xl text-black font-medium duration-400 top-3 absolute peer-focus:translate-y-[-25px] peer-valid:translate-y-[-25px]' For="password">Password</label>
+            <label className='text-xl text-black font-medium duration-400 top-3 absolute peer-focus:translate-y-[-25px] peer-valid:translate-y-[-25px]' htmlFor="password">Password</label>
           </div>
           <div className='flex justify-between mt-5'>
-            <label className='text-xl' for=""><input className='mr-1' type="checkbox" />Remember me</label>
+            <label className='text-xl' htmlFor=""><input className='mr-1' type="checkbox" />Remember me</label>
             <a className='hover:underline text-xl' href="">Forgot password</a>
           </div>
           <button type="submit" className='w-full py-5 my-8 bg-black rounded-md text-3xl text-white font-semibold'>Login</button>
