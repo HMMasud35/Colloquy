@@ -4,8 +4,12 @@ import { MdEmail } from 'react-icons/md'
 import { Link } from 'react-router'
 import Colloquy from '../Component/Colloquy'
 import toast, { Toaster } from 'react-hot-toast'
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
+
 
 const Sign_up = () => {
+  const auth = getAuth();
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
@@ -44,12 +48,35 @@ const Sign_up = () => {
           toast.error("Tips for a good password")
 
         } else {
-          toast.success(" Success!\n\n Please check Email \n\n & Verify your Account ", {
-            duration: 6000,
-          })
+
+          createUserWithEmailAndPassword(auth, userInfo.email, userInfo.password)
+            .then((userCredential) => {
+              // Signed up 
+              const user = userCredential.user;
+              setUserInfo({
+                  name: "",
+                  email: "",
+                  password: "",
+                })
+              // ...
+              toast.success(" Success!\n\n Please check Email \n\n & Verify your Account ", {
+                duration: 6000,
+              })
+
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              if (errorCode.includes("auth/email-already-in-use")) {
+                toast.error("Email already in use")
+                setUserInfo({
+                  name: "",
+                  email: "",
+                  password: "",
+                })
+              }
+            });
         }
-        console.log(userInfo);
-        
   }
 
 
@@ -88,17 +115,17 @@ const Sign_up = () => {
         <form onSubmit={handleSignup}>
           <div className='relative w-full h-12.5 border-b-2 border-[#000b13] my-10'>
             <FaUserTie className='absolute right-2 text-2xl top-4' />
-            <input onChange={handleUser} className='absolute w-full text-white/80 bg-transparent h-full text-2xl outline-none peer' type="text" id='text' name='text' />
+            <input value={userInfo.name} onChange={handleUser} className='absolute w-full text-white/80 bg-transparent h-full text-2xl outline-none peer' type="text" id='text' name='text' />
             <label className='text-xl text-black font-medium duration-400 top-3 absolute peer-focus:translate-y-[-35px] peer-valid:translate-y-[-35px]' htmlFor='text'>User</label>
           </div>
           <div className='relative w-full h-12.5 border-b-2 border-[#000b13] my-8'>
             <MdEmail className='absolute right-2 text-2xl top-4' />
-            <input onChange={handleEmail} className='absolute w-full text-white/80 bg-transparent h-full text-2xl outline-none peer' type="email" id='email' />
+            <input value={userInfo.email} onChange={handleEmail} className='absolute w-full text-white/80 bg-transparent h-full text-2xl outline-none peer' type="email" id='email' />
             <label className='text-xl text-black font-medium duration-400 top-3 absolute peer-focus:translate-y-[-35px] peer-valid:translate-y-[-35px]' htmlFor="email">Email</label>
           </div>
           <div className='relative w-full h-12.5 border-b-2 border-[#000b13] mt-8.5 mb-2'>
             <FaRegEyeSlash className='absolute right-2 text-2xl top-4' />
-            <input onChange={handlePassword} className='absolute w-full text-white/80 bg-transparent h-full text-2xl outline-none peer' type="password" id='password' />
+            <input value={userInfo.password} onChange={handlePassword} className='absolute w-full text-white/80 bg-transparent h-full text-2xl outline-none peer' type="password" id='password' />
             <label className='text-xl text-black font-medium duration-400 top-3 absolute peer-focus:translate-y-[-35px] peer-valid:translate-y-[-35px]' htmlFor="password">Create Password</label>
           </div>
           <div className="flex justify-between mt-5">
