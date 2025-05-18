@@ -9,6 +9,7 @@ import { IoSettingsOutline } from 'react-icons/io5'
 import { LuMessageSquarePlus } from 'react-icons/lu'
 import { MdVideocam } from 'react-icons/md'
 import { RiEmojiStickerLine, RiUserCommunityFill } from 'react-icons/ri'
+import { Link } from 'react-router'
 
 const Home = () => {
   return (
@@ -22,7 +23,7 @@ const Home = () => {
             <li className='mb-15'><a href=""><RiUserCommunityFill className='text-4xl text-gray-300' /></a></li>
           </ul>
           <ul className='mt-110'>
-            <li><a href=""><IoSettingsOutline className='text-4xl text-gray-300 ml-2 mb-8' /></a></li>
+            <li><Link to={"/"} href=""><IoSettingsOutline className='text-4xl text-gray-300 ml-2 mb-8' /></Link></li>
             <li><a href=""><img className='w-10 h-10 bg-amber-200 rounded-4xl ' src="" alt="" /></a></li>
           </ul>
         </div>

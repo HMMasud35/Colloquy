@@ -1,22 +1,26 @@
 import React, { useState } from 'react'
 import { FaRegEyeSlash, FaUserTie } from 'react-icons/fa'
 import { MdEmail } from 'react-icons/md'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import Colloquy from '../Component/Colloquy'
 import toast, { Toaster } from 'react-hot-toast'
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile
+} from "firebase/auth";
+import { app, auth } from "../firebase.config"
 
 
 
 const Sign_up = () => {
-  const auth = getAuth();
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
     password: "",
   });
 
-
+  const navigate = useNavigate()
 
   const handleUser = (e) => {
     setUserInfo((prev) => {
@@ -51,18 +55,26 @@ const Sign_up = () => {
 
           createUserWithEmailAndPassword(auth, userInfo.email, userInfo.password)
             .then((userCredential) => {
-              // Signed up 
-              const user = userCredential.user;
-              setUserInfo({
-                  name: "",
-                  email: "",
-                  password: "",
-                })
-              // ...
-              toast.success(" Success!\n\n Please check Email \n\n & Verify your Account ", {
-                duration: 6000,
-              })
-
+              sendEmailVerification(auth.currentUser)
+                .then(() => {
+                  updateProfile(auth.currentUser, {
+                    displayName: userInfo.name,
+                    photoURL: "https://example.com/jane-q-user/profile.jpg"
+                  }).then(() => {
+                    const user = userCredential.user;
+                    setUserInfo({
+                      name: "",
+                      email: "",
+                      password: "",
+                    })
+                    toast.success(" Success!\n\n Please check Email \n\n & Verify your Account ", {
+                      duration: 6000,
+                    })
+                    navigate("/")
+                  }).catch((error) => {
+                    
+                  });
+                });
             })
             .catch((error) => {
               const errorCode = error.code;
@@ -97,7 +109,7 @@ const Sign_up = () => {
             background: '#363636',
             color: '#fff',
             lineHeight: '13px',
-            fontSize: '18px'
+            fontSize: '18px',
           },
 
           // Default options for specific types
