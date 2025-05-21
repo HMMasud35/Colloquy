@@ -33,12 +33,21 @@ const Login = () => {
       signInWithEmailAndPassword(auth, userInfo.email, userInfo.password)
         .then((userCredential) => {
           const user = userCredential.user;
+          if (user.emailVerified) {
+            navigate("/home"),
+              toast.success("Welcome to Colloquy")
+          } else {
+            toast.error(
+              "Sorry! This Account is not Verified",
+              {
+                duration: 6000,
+              }
+            );
+          }
           setUserInfo({
             email: "",
             password: "",
           })
-          toast.success("Welcome to Colloquy")
-          navigate("/home")
         })
         .catch((error) => {
           const errorCode = error.code;

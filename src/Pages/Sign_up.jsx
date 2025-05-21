@@ -72,7 +72,7 @@ const Sign_up = () => {
                 );
                 navigate("/");
               })
-              .catch((error) => {});
+              .catch((error) => { });
           });
         })
         .catch((error) => {
