@@ -3,27 +3,33 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router";
-import Home from './Pages/Home';
 import Not_Found from './Pages/Not_Found';
 import Login from './Pages/Login';
 import Sign_up from './Pages/Sign_up';
+import Rootlayout from './Component/Rootlayout';
+import Deshboard from './Pages/Deshboard';
+import Message from './Pages/Message';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Login/>,
+    Component: Rootlayout,
+    children: [
+      { index: true, Component: Deshboard },
+      { path: "message", Component: Message},
+    ]
   },
   {
-    path: "/home",
-    element: <Home/>,
+    path: "/login",
+    element: <Login />,
   },
   {
     path: "*",
-    element: <Not_Found/>,
+    element: <Not_Found />,
   },
   {
     path: "/signup",
-    element: <Sign_up/>,
+    element: <Sign_up />,
   },
 ]);
 

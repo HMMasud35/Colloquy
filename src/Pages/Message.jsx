@@ -2,31 +2,15 @@ import React from 'react'
 import { AiFillAudio } from 'react-icons/ai'
 import { CiMenuKebab } from 'react-icons/ci'
 import { FiPlus } from 'react-icons/fi'
-import { GrChannel, GrChat } from 'react-icons/gr'
-import { HiStatusOnline } from 'react-icons/hi'
 import { IoIosSearch } from 'react-icons/io'
-import { IoSettingsOutline } from 'react-icons/io5'
 import { LuMessageSquarePlus } from 'react-icons/lu'
 import { MdVideocam } from 'react-icons/md'
-import { RiEmojiStickerLine, RiUserCommunityFill } from 'react-icons/ri'
-import { Link } from 'react-router'
+import { RiEmojiStickerLine} from 'react-icons/ri'
 
 const Home = () => {
   return (
     <div>
       <div className='flex'>
-        <div className='block bg-subcolor w-1/20 h-screen px-7 place-items-center'>
-          <ul className='mt-5'>
-            <li className='mb-15'><a href=""><GrChat className='text-4xl text-gray-300' /></a></li>
-            <li className='mb-15'><a href=""><HiStatusOnline className='text-4xl text-gray-300' /></a></li>
-            <li className='mb-15'><a href=""><GrChannel className='text-4xl text-gray-300' /></a></li>
-            <li className='mb-15'><a href=""><RiUserCommunityFill className='text-4xl text-gray-300' /></a></li>
-          </ul>
-          <ul className='mt-110'>
-            <li><Link to={"/"} href=""><IoSettingsOutline className='text-4xl text-gray-300 ml-2 mb-8' /></Link></li>
-            <li><a href=""><img className='w-10 h-10 bg-amber-200 rounded-4xl ' src="" alt="" /></a></li>
-          </ul>
-        </div>
         <div className=' bg-secendary w-6/20 h-screen'>
           <div className='px-5 pt-8'>
             <div className='flex justify-between mb-2'>

@@ -34,7 +34,7 @@ const Login = () => {
         .then((userCredential) => {
           const user = userCredential.user;
           if (user.emailVerified) {
-            navigate("/home"),
+            navigate("/Deshboard"),
               toast.success("Welcome to Colloquy")
           } else {
             toast.error(
