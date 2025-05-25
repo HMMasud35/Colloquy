@@ -20,7 +20,7 @@ const Sidebar = () => {
           <li className='p-5 pr-12 hover:bg-gray-800/30 w-full h-full'><a className='text-2xl text-white flex' href=""><GrChannel className='w-10 mr-5 text-4xl text-gray-300' />Chanel</a></li>
           <li className='p-5 pr-12 hover:bg-gray-800/30 w-full h-full'><a className='text-2xl text-white flex' href=""><RiUserCommunityFill className='w-10 mr-5 text-4xl text-gray-300' />Status</a></li>
         </ul>
-        <ul className='mt-40'>
+        <ul className='mt-48'>
           <li className='py-5 px-5 pr-12 hover:bg-gray-800/30 w-full h-full'><Link to={"/login"} className='text-2xl text-white flex ' href=""><IoSettingsOutline className='w-10 mr-5 text-4xl text-gray-300' />Setting</Link></li>
         </ul>
       </div>
