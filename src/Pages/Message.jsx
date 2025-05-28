@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <div>
       <div className='flex'>
-        <div className=' bg-sky-950/95'>
+        <div className=' bg-sky-950/95 -z-10'>
           <div className='px-5 pt-8'>
             <div className='flex justify-between mb-2'>
               <h3 className='text-4xl font-semibold text-white'>Chats</h3>
