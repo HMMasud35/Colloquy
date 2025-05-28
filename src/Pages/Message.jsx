@@ -95,7 +95,7 @@ const Home = () => {
               </ul>
             </div>
           </div>
-          <div className='bg-[url(./assets/image/bg-img-3.jpg)] w-full h-screen fixed bg-no-repeat bg-cover bg-center bg-fixed text-white'>message</div>
+          <div className='bg-[url(./assets/image/bg-img-3.jpg)] w-full h-screen fixed bg-no-repeat bg-cover bg-center bg-fixed text-white'></div>
           <div className='flex  justify-between items-center absolute bottom-0 left-0 bg-sky-900/80 w-6xl h-25 py-5 px-10'>
             <button className='cursor-pointer'><FiPlus className='text-5xl text-gray-400 mr-6' /></button>
             <button className='absolute cursor-pointer ml-23'><RiEmojiStickerLine className='left-32 text-4xl text-gray-400' /></button>
