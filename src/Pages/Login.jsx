@@ -6,8 +6,12 @@ import toast, { Toaster } from 'react-hot-toast'
 import { MdEmail } from 'react-icons/md'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../firebase.config'
+// import { useDispatch } from 'react-redux'
+// import { userLoginInfo } from '../Slices/UserSlice';
+
 
 const Login = () => {
+//  const dispatch = useDispatch()
   const [userInfo, setUserInfo] = useState({
     email: "",
     password: "",
@@ -34,7 +38,9 @@ const Login = () => {
         .then((userCredential) => {
           const user = userCredential.user;
           if (user.emailVerified) {
-            navigate("/Deshboard"),
+            // dispatch(userLoginInfo(user))
+            // localStorage.setItem('login', JSON.stringify(user))
+            navigate("/"),
               toast.success("Welcome to Colloquy")
           } else {
             toast.error(

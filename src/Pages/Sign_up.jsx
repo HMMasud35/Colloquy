@@ -10,8 +10,11 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { app, auth } from "../firebase.config";
+import { useDispatch } from 'react-redux'
+import { userLoginInfo } from '../Slices/UserSlice';
 
 const Sign_up = () => {
+  const dispatch = useDispatch()
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
@@ -59,6 +62,8 @@ const Sign_up = () => {
             })
               .then(() => {
                 const user = userCredential.user;
+                dispatch(userLoginInfo(user))
+                localStorage.setItem('login', JSON.stringify(user))
                 setUserInfo({
                   name: "",
                   email: "",
@@ -70,7 +75,7 @@ const Sign_up = () => {
                     duration: 6000,
                   }
                 );
-                navigate("/");
+                navigate("/login");
               })
               .catch((error) => { });
           });
@@ -187,7 +192,7 @@ const Sign_up = () => {
             <p className="text-center text-xl">
               Already have an account{" "}
               <Link
-                to={"/"}
+                to={"/login"}
                 className="font-semibold hover:underline ml-2"
                 href=""
               >
