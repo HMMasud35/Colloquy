@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 
 const UserList = () => {
   const data = useSelector((state) => state.userLogin.value)
+ console.log(data);
  
   return (
     <div>
@@ -15,7 +16,7 @@ const UserList = () => {
               <img className='w-17 h-17 my-1 rounded-full bg-teal-700' src="" alt="" />
               <div className=''>
                 <h3 className='text-2xl font-medium'>{data.displayName}</h3>
-                <h5 className='text-md'>{data.email}</h5>
+                {/* <h5 className='text-md'>{data.email}</h5> */}
               </div>
             </div>
             <button className='py-2 px-4 bg-sky-700 rounded-xl text-xl text-white hover:bg-sky-900 '>Add Friend</button>

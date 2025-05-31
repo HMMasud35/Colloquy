@@ -11,7 +11,7 @@ import {
 } from "firebase/auth";
 import { app, auth } from "../firebase.config";
 import { useDispatch } from 'react-redux'
-import { userLoginInfo } from '../Slices/UserSlice';
+import { userLoginInfo } from '../Slices/userSlice';
 
 const Sign_up = () => {
   const dispatch = useDispatch()
@@ -63,7 +63,7 @@ const Sign_up = () => {
               .then(() => {
                 const user = userCredential.user;
                 dispatch(userLoginInfo(user))
-                localStorage.setItem('login', JSON.stringify(user))
+                // localStorage.setItem('login', JSON.stringify(user))
                 setUserInfo({
                   name: "",
                   email: "",
