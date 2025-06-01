@@ -13,9 +13,9 @@ const UserList = () => {
         <ul className='h-90 overflow-y-scroll p-1'>
           <li className='flex justify-between items-center px-2 mb-1 border-b-3 border-gray-500/80 bg-sky-100/20 rounded-md hover:bg-sky-100/35'>
             <div className='flex gap-4 items-center'>
-              <img className='w-17 h-17 my-1 rounded-full bg-teal-700' src="" alt="" />
+              <img className='w-17 h-17 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70' src="https://lh3.googleusercontent.com/a/ACg8ocK_C9qzXhSGDgjbQgVYcDRuizfBm_d5kSs1nLK1At4Y6HgN5CU=s288-c-no" alt="" />
               <div className=''>
-                <h3 className='text-2xl font-medium'>{data.displayName}</h3>
+                {/* <h3 className='text-2xl font-medium'>{data.displayName}</h3> */}
                 {/* <h5 className='text-md'>{data.email}</h5> */}
               </div>
             </div>
@@ -23,7 +23,7 @@ const UserList = () => {
           </li>
           <li className='flex justify-between items-center px-2 mb-1 border-b-3 border-gray-500/80 bg-sky-100/20 rounded-md hover:bg-sky-100/35'>
             <div className='flex gap-4 items-center'>
-              <img className='w-17 h-17 my-1 rounded-full bg-teal-700' src="" alt="" />
+              <img className='w-17 h-17 my-1 rounded-full bg-teal-700' src="/image/pic.jpg" alt="" />
               <div className=''>
                 <h3 className='text-2xl font-medium'>Masud</h3>
                 <h5 className='text-md'>I will call him today..</h5>

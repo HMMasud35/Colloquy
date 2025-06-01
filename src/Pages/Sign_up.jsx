@@ -12,6 +12,7 @@ import {
 import { app, auth } from "../firebase.config";
 import { useDispatch } from 'react-redux'
 import { userLoginInfo } from '../Slices/userSlice';
+import { FcGoogle } from "react-icons/fc";
 
 const Sign_up = () => {
   const dispatch = useDispatch()
@@ -184,9 +185,15 @@ const Sign_up = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-5 my-8 bg-black rounded-md text-3xl text-white font-semibold cursor-pointer"
+            className="w-full py-5 my-5 bg-black rounded-md text-3xl text-white font-semibold cursor-pointer"
           >
             Sign up
+          </button>
+          <button
+            type="submit"
+            className="w-full py-3 mb-5 bg-black/50 border-2 border-white/40 rounded-md text-xl text-white font-semibold cursor-pointer flex items-center justify-center"
+          ><FcGoogle className="mr-5 text-3xl" />
+            Sign up with Google
           </button>
           <div>
             <p className="text-center text-xl">
