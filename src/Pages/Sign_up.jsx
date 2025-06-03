@@ -8,6 +8,8 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { app, auth } from "../firebase.config";
 import { useDispatch } from 'react-redux'
@@ -15,6 +17,7 @@ import { userLoginInfo } from '../Slices/userSlice';
 import { FcGoogle } from "react-icons/fc";
 
 const Sign_up = () => {
+  const provider = new GoogleAuthProvider();
   const dispatch = useDispatch()
   const [userInfo, setUserInfo] = useState({
     name: "",
@@ -95,6 +98,20 @@ const Sign_up = () => {
         });
     }
   };
+
+    const handleLoginGoole = () => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          navigate("/")
+        })
+        .catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          console.log(errorCode);
+          
+        });
+    };
 
   return (
     <div className="flex">
@@ -189,7 +206,7 @@ const Sign_up = () => {
           >
             Sign up
           </button>
-          <button
+          <button onClick={handleLoginGoole}
             type="submit"
             className="w-full py-3 mb-5 bg-black/50 border-2 border-white/40 rounded-md text-xl text-white font-semibold cursor-pointer flex items-center justify-center"
           ><FcGoogle className="mr-5 text-3xl" />
