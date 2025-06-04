@@ -8,22 +8,21 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   updateProfile,
-  GoogleAuthProvider,
-  signInWithPopup,
 } from "firebase/auth";
 import { app, auth } from "../firebase.config";
 import { useDispatch } from 'react-redux'
 import { userLoginInfo } from '../Slices/userSlice';
-import { FcGoogle } from "react-icons/fc";
+import { getDatabase, ref, set } from "firebase/database";
 
 const Sign_up = () => {
-  const provider = new GoogleAuthProvider();
   const dispatch = useDispatch()
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
     password: "",
   });
+
+  const db = getDatabase();
 
   const navigate = useNavigate();
 
@@ -73,15 +72,23 @@ const Sign_up = () => {
                   email: "",
                   password: "",
                 });
+                
+                
                 toast.success(
                   " Success! \n Please check Email \n & Verify your Account",
                   {
                     duration: 6000,
                   }
                 );
-                navigate("/login");
+                set(ref(db, 'users/' + user.uid), {
+                  name: user.displayName,
+                  email: user.email,
+                  photo: user.photoURL
+                }).then(() => {
+                  navigate("/login");
+                })
               })
-              .catch((error) => { });
+              .catch((error) => {});
           });
         })
         .catch((error) => {
@@ -98,20 +105,6 @@ const Sign_up = () => {
         });
     }
   };
-
-    const handleLoginGoole = () => {
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          const user = result.user;
-          navigate("/")
-        })
-        .catch((error) => {
-          // Handle Errors here.
-          const errorCode = error.code;
-          console.log(errorCode);
-          
-        });
-    };
 
   return (
     <div className="flex">
@@ -205,12 +198,6 @@ const Sign_up = () => {
             className="w-full py-5 my-5 bg-black rounded-md text-3xl text-white font-semibold cursor-pointer"
           >
             Sign up
-          </button>
-          <button onClick={handleLoginGoole}
-            type="submit"
-            className="w-full py-3 mb-5 bg-black/50 border-2 border-white/40 rounded-md text-xl text-white font-semibold cursor-pointer flex items-center justify-center"
-          ><FcGoogle className="mr-5 text-3xl" />
-            Sign up with Google
           </button>
           <div>
             <p className="text-center text-xl">

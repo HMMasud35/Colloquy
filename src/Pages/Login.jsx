@@ -11,6 +11,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase.config";
 import { FcGoogle } from "react-icons/fc";
+import { getDatabase, ref, set } from "firebase/database";
 // import { useDispatch } from 'react-redux'
 // import { userLoginInfo } from '../Slices/UserSlice';
 
@@ -21,6 +22,8 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  const db = getDatabase();
 
   const navigate = useNavigate();
 
@@ -45,8 +48,8 @@ const Login = () => {
           if (user.emailVerified) {
             // dispatch(userLoginInfo(user))
             // localStorage.setItem('login', JSON.stringify(user))
-            navigate("/"), 
-            toast.success("Welcome to Colloquy");
+            navigate("/"),
+              toast.success("Welcome to Colloquy");
           } else {
             toast.error("Sorry! This Account is not Verified", {
               duration: 6000,
@@ -77,13 +80,20 @@ const Login = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
-        navigate("/")
+        console.log(user);
+        set(ref(db, 'users/' + user.uid), {
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL
+        }).then(() => {
+          navigate("/");
+        })
       })
       .catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
         console.log(errorCode);
-        
+
       });
   };
   return (
@@ -171,7 +181,7 @@ const Login = () => {
             className="w-full py-3 mb-5 bg-black/50 border-2 border-white/40 rounded-md text-xl text-white font-semibold cursor-pointer flex items-center justify-center"
           >
             <FcGoogle className="mr-5 text-3xl" />
-            Login with Google
+            Sign in with Google
           </button>
           <div>
             <p className="text-center text-xl">
