@@ -7,23 +7,26 @@ import { RiUserCommunityFill } from 'react-icons/ri'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router'
 import { userLoginInfo } from '../Slices/userSlice'
+import { useSelector } from 'react-redux'
 
 const Sidebar = () => {
   const navigate = useNavigate()
   const auth = getAuth();
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.userLogin.value)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        dispatch(userLoginInfo({
-          name: user.displayName,
-          email: user.email,
-          uid: user.uid,
-          photo: user.photoURL,
-        }))
+        dispatch(
+          userLoginInfo({
+            name: user.displayName,
+            email: user.email,
+            uid: user.uid,
+          }))
       } else {
-        dispatch(userLoginInfo(null))
+        dispatch(
+          userLoginInfo(null))
         navigate("/login")
       }
     });
@@ -31,11 +34,13 @@ const Sidebar = () => {
 
   const handleSignOut = (e) => {
     e.preventDefault();
-    signOut(auth).then(() => {
-      navigate("/login")
-    }).catch((error) => {
-      alert(error)
-    });
+    signOut(auth)
+      .then(() => {
+        navigate("/login")
+      })
+      .catch((error) => {
+        alert(error)
+      });
   }
 
   return (
@@ -54,7 +59,7 @@ const Sidebar = () => {
         </ul>
         <div className='mt-45'>
           <button onClick={handleSignOut} className='mb-30 py-5 hover:bg-gray-800/30 w-full h-full text-2xl text-white flex cursor-pointer'><IoSettingsOutline className='pl-5 w-13 mr-5 text-4xl text-gray-300' />Setting</button>
-          <button className='w-full cursor-pointer bg-sky-700 mt-[-110px] p-1 hover:bg-gray-800/30 border-2 border-sky-800 rounded-4xl flex items-center text-xl font-semibold text-white '><img className='w-18 h-18 bg-amber-200 rounded-full mr-3 ' src="" alt="" />name</button>
+          <button className='w-full cursor-pointer bg-sky-700 mt-[-110px] p-1 hover:bg-gray-800/30 border-2 border-sky-800 rounded-4xl flex items-center text-xl font-semibold text-white '><img className='w-18 h-18 bg-amber-200 rounded-full mr-3 ' src="" alt="" />{user.name}</button>
         </div>
       </div>
     </div>

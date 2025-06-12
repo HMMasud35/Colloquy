@@ -80,7 +80,6 @@ const Login = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
-        console.log(user);
         set(ref(db, 'users/' + user.uid), {
           name: user.displayName,
           email: user.email,
@@ -92,8 +91,6 @@ const Login = () => {
       .catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
-        console.log(errorCode);
-
       });
   };
   return (
