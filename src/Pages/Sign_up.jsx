@@ -72,8 +72,7 @@ const Sign_up = () => {
                   email: "",
                   password: "",
                 });
-                
-                
+                                
                 toast.success(
                   " Success! \n Please check Email \n & Verify your Account",
                   {

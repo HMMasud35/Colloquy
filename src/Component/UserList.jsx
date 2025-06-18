@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getDatabase, ref, onValue } from "firebase/database";
+import { getDatabase, ref, onValue, set, push } from "firebase/database";
 import { auth } from '../firebase.config';
 
 
@@ -13,12 +13,25 @@ const UserList = () => {
       const array = []
       snapshot.forEach((item) => {
         if (item.key != auth.currentUser.uid) {
-          array.push(item.val())
+          array.push({...item.val(), id: item.key})
         }
       })
       setuserList(array)
     });
   }, [])
+
+  const handleFriendrequest = (item) => {
+    set(push(ref(db, 'frendrequest/')), {
+      sendername: auth.currentUser.displayName,
+      senderid: auth.currentUser.uid,
+      senderphoto: auth.currentUser.photoURL,
+      recivername: item.name,
+      reciverid: item.id,
+    }).then(() => {
+     
+      
+    })
+  }
 
   return (
     <div>
@@ -34,7 +47,7 @@ const UserList = () => {
                   <h5 className='text-md'>{item.email}</h5>
                 </div>
               </div>
-              <button className='py-2 px-4 bg-sky-700 rounded-xl text-xl text-white hover:bg-sky-900 '>Add Friend</button>
+              <button onClick={() => handleFriendrequest(item)} className='py-2 px-4 bg-sky-700 rounded-xl text-xl text-white hover:bg-sky-900 '>Add Friend</button>
             </li>
           ))}
         </ul>
