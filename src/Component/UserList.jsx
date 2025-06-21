@@ -1,35 +1,70 @@
 import React, { useEffect, useState } from 'react'
-import { getDatabase, ref, onValue, set, push } from "firebase/database";
+import { getDatabase, ref, onValue, set, push, remove } from "firebase/database";
 import { auth } from '../firebase.config';
 
 
 const UserList = () => {
   const [userList, setuserList] = useState([])
+  const [checkRequestId, setcheckRequestId] = useState([])
+  const [checkFriendsId, setcheckFriendsId] = useState([])
   const db = getDatabase();
 
+  //users messages
   useEffect(() => {
     const userListRef = ref(db, 'users/');
     onValue(userListRef, (snapshot) => {
       const array = []
       snapshot.forEach((item) => {
         if (item.key != auth.currentUser.uid) {
-          array.push({...item.val(), id: item.key})
+          array.push({ ...item.val(), id: item.key })
         }
       })
       setuserList(array)
     });
   }, [])
 
+  //request messages
+  useEffect(() => {
+    const requestRef = ref(db, "frendrequest/");
+    onValue(requestRef, (snapshot) => {
+      const array = [];
+      snapshot.forEach((item) => {
+        array.push(item.val().senderid + item.val().reciverid);
+      });
+      setcheckRequestId(array)
+    });
+  }, []);
+
+  //friend messages
+  useEffect(() => {
+    const requestRef = ref(db, "friends/");
+    onValue(requestRef, (snapshot) => {
+      const array = [];
+      snapshot.forEach((item) => {
+        array.push(item.val().senderid + item.val().reciverid);
+      });
+      setcheckFriendsId(array)
+    });
+  }, []);
+
   const handleFriendrequest = (item) => {
+    const db = getDatabase();
     set(push(ref(db, 'frendrequest/')), {
       sendername: auth.currentUser.displayName,
       senderid: auth.currentUser.uid,
       senderphoto: auth.currentUser.photoURL,
       recivername: item.name,
       reciverid: item.id,
+      reciverphoto: item.photo,
+    })
+  }
+
+  const handleCancleSendRequest = (item) => {
+    const db = getDatabase();
+    set(push(ref(db, 'userlist/')), {
+      ...item
     }).then(() => {
-     
-      
+      remove(ref(db, "frendrequest/"))
     })
   }
 
@@ -47,7 +82,32 @@ const UserList = () => {
                   <h5 className='text-md'>{item.email}</h5>
                 </div>
               </div>
-              <button onClick={() => handleFriendrequest(item)} className='py-2 px-4 bg-sky-700 rounded-xl text-xl text-white hover:bg-sky-900 '>Add Friend</button>
+
+              {checkFriendsId.includes(
+                auth.currentUser.uid + item.id
+              ) ||
+                checkFriendsId.includes(
+                  item.id + auth.currentUser.uid
+                ) ? (
+                <button className='py-2 px-4 bg-green-900 rounded-xl text-xl text-white'>Friend</button>
+              ) :
+
+                checkRequestId.includes(
+                  auth.currentUser.uid + item.id
+                ) ||
+                  checkRequestId.includes(
+                    item.id + auth.currentUser.uid
+                  ) ? (
+                  checkRequestId.includes(
+                    auth.currentUser.uid + item.id
+                  ) ? (
+                    <button onClick={() => handleCancleSendRequest(item)} className='py-2 px-4 bg-sky-700 rounded-xl text-xl text-white hover:bg-sky-900 '>Cancel</button>
+                  ) : (
+                    <button className='py-2 px-4 bg-gray-800/30 rounded-xl text-xl text-white/50'>Panding</button>
+                  )
+                ) : (
+                  <button onClick={() => handleFriendrequest(item)} className='py-2 px-4 bg-sky-700 rounded-xl text-xl text-white hover:bg-sky-900 '>Add Friend</button>
+                )}
             </li>
           ))}
         </ul>

@@ -61,18 +61,17 @@ const Sign_up = () => {
           sendEmailVerification(auth.currentUser).then(() => {
             updateProfile(auth.currentUser, {
               displayName: userInfo.name,
-              photoURL: "https://example.com/jane-q-user/profile.jpg",
+              photoURL: userInfo.photo,
             })
               .then(() => {
                 const user = userCredential.user;
                 dispatch(userLoginInfo(user))
-                // localStorage.setItem('login', JSON.stringify(user))
                 setUserInfo({
                   name: "",
                   email: "",
                   password: "",
                 });
-                                
+
                 toast.success(
                   " Success! \n Please check Email \n & Verify your Account",
                   {
@@ -87,7 +86,7 @@ const Sign_up = () => {
                   navigate("/login");
                 })
               })
-              .catch((error) => {});
+              .catch((error) => { });
           });
         })
         .catch((error) => {

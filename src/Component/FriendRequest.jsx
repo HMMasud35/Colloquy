@@ -1,4 +1,4 @@
-import { getDatabase, onValue, ref } from "firebase/database";
+import { getDatabase, onValue, push, ref, remove, set } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { auth } from "../firebase.config";
@@ -6,16 +6,55 @@ import { auth } from "../firebase.config";
 const FriendRequest = () => {
   const [requestList, setRequestList] = useState([]);
   const db = getDatabase();
+
   useEffect(() => {
     const requestRef = ref(db, "frendrequest/");
     onValue(requestRef, (snapshot) => {
       const array = [];
       snapshot.forEach((item) => {
-        array.push(item.val());
+        if (
+          auth.currentUser.uid == item.val().reciverid
+        ) {
+          array.push({ ...item.val(), id: item.key });
+        }
       });
       setRequestList(array);
     });
   }, []);
+
+  const handleFrindAccept = (item) => {
+    const db = getDatabase();
+    set(push(ref(db, 'friends/')), {
+      ...item
+    }).then(() => {
+      remove(ref(db, "frendrequest/" + item.id))
+    })
+  }
+
+  const handleRequestCancle = (item) => {
+    const db = getDatabase();
+    set(push(ref(db, 'userlist/')), {
+      ...item
+    }).then(() => {
+      remove(ref(db, "frendrequest/" + item.id))
+    })
+  }
+
+  //date
+  // const cDate = new Date().toLocaleDateString()
+  // const [date, setDate] = useState(cDate)
+
+  // const updateDate = () => {
+  //   const newDate = new Date().toLocaleDateString()
+  //   setDate(newDate)
+  // }
+
+  // useEffect(() => {
+  //   const DateInterval = setInterval(updateDate)
+  //   return () => {
+  //     clearInterval(DateInterval)
+  //   }
+  // }, [date])
 
   return (
     <div>
@@ -38,10 +77,10 @@ const FriendRequest = () => {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <button className="px-4 py-2 bg-sky-700 rounded-xl text-xl text-white hover:bg-sky-900 ">
+                <button onClick={() => handleFrindAccept(item)} className="px-4 py-2 bg-sky-700 rounded-xl text-xl text-white hover:bg-sky-900 ">
                   Accept
                 </button>
-                <button className="px-2 py-2 bg-sky-700 rounded-xl text-white hover:bg-red-900 ">
+                <button onClick={() => handleRequestCancle(item)} className="px-2 py-2 bg-sky-700 rounded-xl text-white hover:bg-red-900 ">
                   <IoCloseOutline className="text-3xl" />
                 </button>
               </div>

@@ -12,11 +12,8 @@ import {
 import { auth } from "../firebase.config";
 import { FcGoogle } from "react-icons/fc";
 import { getDatabase, ref, set } from "firebase/database";
-// import { useDispatch } from 'react-redux'
-// import { userLoginInfo } from '../Slices/UserSlice';
 
 const Login = () => {
-  //  const dispatch = useDispatch()
   const provider = new GoogleAuthProvider();
   const [userInfo, setUserInfo] = useState({
     email: "",
@@ -42,12 +39,10 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     if (userInfo.email && userInfo.password) {
-      signInWithEmailAndPassword(auth, userInfo.email, userInfo.password)
+      signInWithEmailAndPassword(auth, userInfo.email, userInfo.password, userInfo.photoURL)
         .then((userCredential) => {
           const user = userCredential.user;
           if (user.emailVerified) {
-            // dispatch(userLoginInfo(user))
-            // localStorage.setItem('login', JSON.stringify(user))
             navigate("/"),
               toast.success("Welcome to Colloquy");
           } else {
