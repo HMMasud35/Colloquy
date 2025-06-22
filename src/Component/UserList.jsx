@@ -9,6 +9,21 @@ const UserList = () => {
   const [checkFriendsId, setcheckFriendsId] = useState([])
   const db = getDatabase();
 
+  useEffect(() => {
+    const requestRef = ref(db, "frendrequest/");
+    onValue(requestRef, (snapshot) => {
+      const array = [];
+      snapshot.forEach((item) => {
+        if (
+          auth.currentUser.uid == item.val().reciverid
+        ) {
+          array.push({ ...item.val(), id: item.key });
+        }
+      });
+      setuserList(array);
+    });
+  }, []);
+
   //users messages
   useEffect(() => {
     const userListRef = ref(db, 'users/');
@@ -64,7 +79,7 @@ const UserList = () => {
     set(push(ref(db, 'userlist/')), {
       ...item
     }).then(() => {
-      remove(ref(db, "frendrequest/"))
+      remove(ref(db, "frendrequest/" ))
     })
   }
 
@@ -74,7 +89,7 @@ const UserList = () => {
         <h2 className='text-3xl text-white font-semibold text-center bg-sky-800 py-2 rounded-md'>People you may know</h2>
         <ul className='h-90 overflow-y-scroll p-1'>
           {userList.map((item) => (
-            <li className='flex justify-between items-center px-2 mb-1 border-b-3 border-gray-500/80 bg-sky-100/20 rounded-md hover:bg-sky-100/35'>
+            < li className='flex justify-between items-center px-2 mb-1 border-b-3 border-gray-500/80 bg-sky-100/20 rounded-md hover:bg-sky-100/35' >
               <div className='flex gap-4 items-center'>
                 <img className='w-17 h-17 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70' src={item.photo} alt="user photo" />
                 <div className=''>
@@ -107,12 +122,13 @@ const UserList = () => {
                   )
                 ) : (
                   <button onClick={() => handleFriendrequest(item)} className='py-2 px-4 bg-sky-700 rounded-xl text-xl text-white hover:bg-sky-900 '>Add Friend</button>
-                )}
+                )
+              }
             </li>
           ))}
         </ul>
       </div>
-    </div>
+    </div >
   )
 }
 
