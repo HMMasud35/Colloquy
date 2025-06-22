@@ -8,7 +8,7 @@ const FriendRequest = () => {
   const db = getDatabase();
 
   useEffect(() => {
-    const requestRef = ref(db, "frendrequest/");
+    const requestRef = ref(db, "friendrequest/");
     onValue(requestRef, (snapshot) => {
       const array = [];
       snapshot.forEach((item) => {
@@ -27,16 +27,16 @@ const FriendRequest = () => {
     set(push(ref(db, 'friends/')), {
       ...item
     }).then(() => {
-      remove(ref(db, "frendrequest/" + item.id))
+      remove(ref(db, "friendrequest/" + item.id))
     })
   }
 
   const handleRequestCancle = (item) => {
     const db = getDatabase();
-    set(push(ref(db, 'userlist/')), {
+    set(ref(db, 'userlist/'), {
       ...item
     }).then(() => {
-      remove(ref(db, "frendrequest/" + item.id))
+      remove(ref(db, "friendrequest/" + item.id))
     })
   }
 

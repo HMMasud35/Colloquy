@@ -9,21 +9,6 @@ const UserList = () => {
   const [checkFriendsId, setcheckFriendsId] = useState([])
   const db = getDatabase();
 
-  useEffect(() => {
-    const requestRef = ref(db, "frendrequest/");
-    onValue(requestRef, (snapshot) => {
-      const array = [];
-      snapshot.forEach((item) => {
-        if (
-          auth.currentUser.uid == item.val().reciverid
-        ) {
-          array.push({ ...item.val(), id: item.key });
-        }
-      });
-      setuserList(array);
-    });
-  }, []);
-
   //users messages
   useEffect(() => {
     const userListRef = ref(db, 'users/');
@@ -40,7 +25,7 @@ const UserList = () => {
 
   //request messages
   useEffect(() => {
-    const requestRef = ref(db, "frendrequest/");
+    const requestRef = ref(db, "friendrequest/");
     onValue(requestRef, (snapshot) => {
       const array = [];
       snapshot.forEach((item) => {
@@ -64,7 +49,7 @@ const UserList = () => {
 
   const handleFriendrequest = (item) => {
     const db = getDatabase();
-    set(push(ref(db, 'frendrequest/')), {
+    set(push(ref(db, 'friendrequest/')), {
       sendername: auth.currentUser.displayName,
       senderid: auth.currentUser.uid,
       senderphoto: auth.currentUser.photoURL,
@@ -76,11 +61,8 @@ const UserList = () => {
 
   const handleCancleSendRequest = (item) => {
     const db = getDatabase();
-    set(push(ref(db, 'userlist/')), {
-      ...item
-    }).then(() => {
-      remove(ref(db, "frendrequest/" ))
-    })
+    remove(ref(db, "friendrequest/", item.id)
+    )
   }
 
   return (
@@ -94,7 +76,7 @@ const UserList = () => {
                 <img className='w-17 h-17 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70' src={item.photo} alt="user photo" />
                 <div className=''>
                   <h3 className='text-2xl font-medium'>{item.name}</h3>
-                  <h5 className='text-md'>{item.email}</h5>
+                  <h5 className='text-md w-10'>{item.email}</h5>
                 </div>
               </div>
 
@@ -122,13 +104,12 @@ const UserList = () => {
                   )
                 ) : (
                   <button onClick={() => handleFriendrequest(item)} className='py-2 px-4 bg-sky-700 rounded-xl text-xl text-white hover:bg-sky-900 '>Add Friend</button>
-                )
-              }
+                )}
             </li>
           ))}
         </ul>
       </div>
-    </div >
+    </div>
   )
 }
 
