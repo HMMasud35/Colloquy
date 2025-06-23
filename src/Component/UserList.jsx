@@ -6,7 +6,9 @@ import { auth } from '../firebase.config';
 const UserList = () => {
   const [userList, setuserList] = useState([])
   const [checkRequestId, setcheckRequestId] = useState([])
+  const [checkSenderId, setCheckSenderId] = useState([])
   const [checkFriendsId, setcheckFriendsId] = useState([])
+  const [checkCancleId, setcheckCancleId] = useState([])
   const db = getDatabase();
 
   //users messages
@@ -23,7 +25,7 @@ const UserList = () => {
     });
   }, [])
 
-  //request messages
+  // //request messages
   useEffect(() => {
     const requestRef = ref(db, "friendrequest/");
     onValue(requestRef, (snapshot) => {
@@ -47,6 +49,20 @@ const UserList = () => {
     });
   }, []);
 
+  // //cancle request messages
+  useEffect(() => {
+    const cancleRef = ref(db, "friendrequest/");
+    onValue(cancleRef, (snapshot) => {
+      const array = [];
+      snapshot.forEach((item) => {
+        if (auth.currentUser.uid) {
+          array.push({ ...item.val(), id: item.key });
+        }
+      });
+      setcheckCancleId(array)
+    });
+  }, []);
+
   const handleFriendrequest = (item) => {
     const db = getDatabase();
     set(push(ref(db, 'friendrequest/')), {
@@ -60,9 +76,8 @@ const UserList = () => {
   }
 
   const handleCancleSendRequest = (item) => {
-    const db = getDatabase();
-    remove(ref(db, "friendrequest/", item.id)
-    )
+    const db = getDatabase()
+    remove(ref(db, "friendrequest/", item.id))
   }
 
   return (
@@ -76,7 +91,7 @@ const UserList = () => {
                 <img className='w-17 h-17 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70' src={item.photo} alt="user photo" />
                 <div className=''>
                   <h3 className='text-2xl font-medium'>{item.name}</h3>
-                  <h5 className='text-md w-10'>{item.email}</h5>
+                  <h5 className='text-md w-10'>{Date}</h5>
                 </div>
               </div>
 
@@ -94,6 +109,9 @@ const UserList = () => {
                 ) ||
                   checkRequestId.includes(
                     item.id + auth.currentUser.uid
+                  ) ||
+                  checkCancleId.includes(
+                    auth.currentUser.uid + item.id
                   ) ? (
                   checkRequestId.includes(
                     auth.currentUser.uid + item.id

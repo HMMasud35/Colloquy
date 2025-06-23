@@ -12,9 +12,7 @@ const FriendRequest = () => {
     onValue(requestRef, (snapshot) => {
       const array = [];
       snapshot.forEach((item) => {
-        if (
-          auth.currentUser.uid == item.val().reciverid
-        ) {
+        if (auth.currentUser.uid == item.val().reciverid) {
           array.push({ ...item.val(), id: item.key });
         }
       });
@@ -33,11 +31,7 @@ const FriendRequest = () => {
 
   const handleRequestCancle = (item) => {
     const db = getDatabase();
-    set(ref(db, 'userlist/'), {
-      ...item
-    }).then(() => {
       remove(ref(db, "friendrequest/" + item.id))
-    })
   }
 
   //date
