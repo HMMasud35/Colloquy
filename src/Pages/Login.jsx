@@ -78,7 +78,7 @@ const Login = () => {
         set(ref(db, 'users/' + user.uid), {
           name: user.displayName,
           email: user.email,
-          photo: user.photoURL
+          photo: user.photoURL,
         }).then(() => {
           navigate("/");
         })

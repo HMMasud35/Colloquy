@@ -61,7 +61,7 @@ const Sign_up = () => {
           sendEmailVerification(auth.currentUser).then(() => {
             updateProfile(auth.currentUser, {
               displayName: userInfo.name,
-              photoURL: userInfo.photo,
+              photoURL: "/assets/image/pic.jpg",
             })
               .then(() => {
                 const user = userCredential.user;
@@ -81,7 +81,7 @@ const Sign_up = () => {
                 set(ref(db, 'users/' + user.uid), {
                   name: user.displayName,
                   email: user.email,
-                  photo: user.photoURL
+                  photo: user.photoURL,
                 }).then(() => {
                   navigate("/login");
                 })

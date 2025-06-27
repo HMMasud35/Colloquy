@@ -61,7 +61,7 @@ const FriendRequest = () => {
             <li className="flex justify-between items-center px-2 mb-1 border-b-3 border-gray-500/80 bg-sky-100/20 rounded-md hover:bg-sky-100/35">
               <div className="flex gap-4 items-center">
                 <img
-                  className="w-17 h-17 my-1 rounded-full bg-teal-700"
+                  className='w-17 h-17 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70'
                   src={item.senderphoto}
                   alt="Request User Photo"
                 />

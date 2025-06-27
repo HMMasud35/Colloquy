@@ -6,9 +6,8 @@ import { auth } from '../firebase.config';
 const UserList = () => {
   const [userList, setuserList] = useState([])
   const [checkRequestId, setcheckRequestId] = useState([])
-  const [checkSenderId, setCheckSenderId] = useState([])
   const [checkFriendsId, setcheckFriendsId] = useState([])
-  const [checkCancleId, setcheckCancleId] = useState([])
+  const [checkunblockId, setcheckunblockId] = useState([])
   const db = getDatabase();
 
   //users messages
@@ -25,7 +24,7 @@ const UserList = () => {
     });
   }, [])
 
-  // //request messages
+  //request messages
   useEffect(() => {
     const requestRef = ref(db, "friendrequest/");
     onValue(requestRef, (snapshot) => {
@@ -49,17 +48,15 @@ const UserList = () => {
     });
   }, []);
 
-  // //cancle request messages
+  //block messages
   useEffect(() => {
-    const cancleRef = ref(db, "friendrequest/");
-    onValue(cancleRef, (snapshot) => {
+    const unblockRef = ref(db, "block/");
+    onValue(unblockRef, (snapshot) => {
       const array = [];
       snapshot.forEach((item) => {
-        if (auth.currentUser.uid) {
-          array.push({ ...item.val(), id: item.key });
-        }
+        array.push(item.val().blockbyuserid + item.val().blockuserid);
       });
-      setcheckCancleId(array)
+      setcheckunblockId(array)
     });
   }, []);
 
@@ -76,8 +73,12 @@ const UserList = () => {
   }
 
   const handleCancleSendRequest = (item) => {
-    const db = getDatabase()
-    remove(ref(db, "friendrequest/", item.id))
+    const db = getDatabase();
+    set(ref(db, 'userlist/'), {
+      ...item
+    }).then(() => {
+      remove(ref(db, "friendrequest/", item.id))
+    })
   }
 
   return (
@@ -91,7 +92,7 @@ const UserList = () => {
                 <img className='w-17 h-17 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70' src={item.photo} alt="user photo" />
                 <div className=''>
                   <h3 className='text-2xl font-medium'>{item.name}</h3>
-                  <h5 className='text-md w-10'>{Date}</h5>
+                  <h5 className='text-md w-10'>{item.email}</h5>
                 </div>
               </div>
 
@@ -109,9 +110,6 @@ const UserList = () => {
                 ) ||
                   checkRequestId.includes(
                     item.id + auth.currentUser.uid
-                  ) ||
-                  checkCancleId.includes(
-                    auth.currentUser.uid + item.id
                   ) ? (
                   checkRequestId.includes(
                     auth.currentUser.uid + item.id
@@ -120,9 +118,19 @@ const UserList = () => {
                   ) : (
                     <button className='py-2 px-4 bg-gray-800/30 rounded-xl text-xl text-white/50'>Panding</button>
                   )
-                ) : (
-                  <button onClick={() => handleFriendrequest(item)} className='py-2 px-4 bg-sky-700 rounded-xl text-xl text-white hover:bg-sky-900 '>Add Friend</button>
-                )}
+                ) :
+
+                  checkunblockId.includes(
+                    auth.currentUser.uid + item.id
+                  ) ||
+                    checkunblockId.includes(
+                      item.id + auth.currentUser.uid
+                    ) ? (
+                    <button className='py-2 px-4 bg-gray-800/30 rounded-xl text-xl text-white/50'>Block</button>
+
+                  ) : (
+                    <button onClick={() => handleFriendrequest(item)} className='py-2 px-4 bg-sky-700 rounded-xl text-xl text-white hover:bg-sky-900 '>Add Friend</button>
+                  )}
             </li>
           ))}
         </ul>
