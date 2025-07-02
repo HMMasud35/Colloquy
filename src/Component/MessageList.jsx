@@ -6,8 +6,10 @@ import { LuMessageSquarePlus } from 'react-icons/lu'
 import { auth } from '../firebase.config'
 import { useDispatch, useSelector } from 'react-redux'
 import { chatingInfo } from '../Slices/chatSlice'
+import Friends from './Friends'
 
 const MessagesList = () => {
+  const [filterResult, setFilterResult] = useState()
   const user = useSelector((state) => state.chating.value);
   const [friendssmslist, setfriendssmslist] = useState([]);
   const db = getDatabase();
@@ -37,6 +39,19 @@ const MessagesList = () => {
     }
   }
 
+  let handleSearch = (e) => {
+    let filterresult = friendssmslist.filter(
+      (item) =>
+        item.sendername.toUpperCase()
+          .replaceAll(" ", "")
+            .includes(e.target.value.toUpperCase()) ||
+        item.recivername.toUpperCase()
+          .replaceAll(" ", "")
+            .includes(e.target.value.toUpperCase())
+    )
+    setFilterResult(filterresult)
+  }
+
   return (
     <div>
       <div className='flex'>
@@ -53,8 +68,9 @@ const MessagesList = () => {
                 </a>
               </div>
             </div>
-            <label htmlFor=""></label>
-            <input className='bg-sky-800 w-full h-13 relative rounded-xl outline-0 mt-5 text-2xl px-20 text-gray-100' type="search" placeholder='Search' />
+            <input onChange={handleSearch} className='bg-sky-800 w-full h-13 relative rounded-xl outline-0 mt-5 text-2xl px-20 text-gray-100'
+              type="search"
+              placeholder='Search' />
             <IoIosSearch className='absolute top-28 left-75 text-3xl text-gray-200' />
             <ul className='flex gap-3 mt-5 border-b-3 border-gray-700 pb-5'>
               <li className='py-2 px-5 bg-sky-800 rounded-3xl text-white text-xl hover:bg-black/50 hover:text-white'><a href="">All</a></li>
@@ -64,30 +80,56 @@ const MessagesList = () => {
             </ul>
           </div>
           <div className='mt-2 h-screen text-white'>
-            {friendssmslist.map((item) => (
-              <li onClick={() => handleUserselect(item)} className={`mx-5 flex justify-between p-2 mb-3 border-b-2 
+
+            {filterResult ?
+              filterResult.map((item) => (
+                <li onClick={() => handleUserselect(item)} className={`mx-5 flex justify-between p-2 mb-3 border-b-2 
               ${user?.id == item.senderid || user?.id == item.reciverid ? "bg-gray-900/60 rounded-t-xl" : "hover:bg-gray-700/40"} 
               border-gray-500/80 cursor-pointer hover:rounded-t-xl`}>
-                <div className='flex gap-4 items-center'>
-                  {auth.currentUser.uid == item.senderid ?
-                    <img className='w-17 h-17 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70'
-                      src={item.reciverphoto} alt="" />
-                    :
-                    <img className='w-17 h-17 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70'
-                      src={item.senderphoto} alt="" />
-                  }
-                  <div className=''>
+                  <div className='flex gap-4 items-center'>
                     {auth.currentUser.uid == item.senderid ?
-                      <h3 className='text-2xl font-medium'>{item.recivername}</h3>
+                      <img className='w-17 h-17 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70'
+                        src={item.reciverphoto} alt="" />
                       :
-                      <h3 className='text-2xl font-medium'>{item.sendername}</h3>
+                      <img className='w-17 h-17 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70'
+                        src={item.senderphoto} alt="" />
                     }
-                    <h5 className='text-md'>Last Message</h5>
+                    <div className=''>
+                      {auth.currentUser.uid == item.senderid ?
+                        <h3 className='text-2xl font-medium'>{item.recivername}</h3>
+                        :
+                        <h3 className='text-2xl font-medium'>{item.sendername}</h3>
+                      }
+                      <h5 className='text-md'>Last Message</h5>
+                    </div>
                   </div>
-                </div>
-                <p className='text-md text-white my-3'>Date or Time</p>
-              </li>
-            ))}
+                  <p className='text-md text-white my-3'>Date or Time</p>
+                </li>
+              )) :
+              friendssmslist.map((item) => (
+                <li onClick={() => handleUserselect(item)} className={`mx-5 flex justify-between p-2 mb-3 border-b-2 
+              ${user?.id == item.senderid || user?.id == item.reciverid ? "bg-gray-900/60 rounded-t-xl" : "hover:bg-gray-700/40"} 
+              border-gray-500/80 cursor-pointer hover:rounded-t-xl`}>
+                  <div className='flex gap-4 items-center'>
+                    {auth.currentUser.uid == item.senderid ?
+                      <img className='w-17 h-17 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70'
+                        src={item.reciverphoto} alt="" />
+                      :
+                      <img className='w-17 h-17 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70'
+                        src={item.senderphoto} alt="" />
+                    }
+                    <div className=''>
+                      {auth.currentUser.uid == item.senderid ?
+                        <h3 className='text-2xl font-medium'>{item.recivername}</h3>
+                        :
+                        <h3 className='text-2xl font-medium'>{item.sendername}</h3>
+                      }
+                      <h5 className='text-md'>Last Message</h5>
+                    </div>
+                  </div>
+                  <p className='text-md text-white my-3'>Date or Time</p>
+                </li>
+              ))}
           </div>
         </div>
       </div>

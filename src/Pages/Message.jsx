@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import { getDatabase, onValue, push, ref, set } from 'firebase/database'
 import { auth } from '../firebase.config'
 import moment from 'moment/moment'
+import { SlArrowDown } from 'react-icons/sl'
 
 const Message = () => {
   let [sms, setSms] = useState(null)
@@ -78,30 +79,53 @@ const Message = () => {
                 </ul>
               </div>
             </div>
-            <div className='px-5 w-287 h-190 bg-[url(./assets/image/bg-img-3.jpg)] bg-no-repeat bg-cover bg-center overflow-y-scroll'>
-              { }
+            <div className='px-5 w-288 h-190 bg-[url(./assets/image/bg-img-3.jpg)] bg-no-repeat bg-cover bg-center overflow-y-scroll'>
               {smslist.map((smsitem) => (
                 <div>
-                  {user?.id == smsitem.senderid ||
-                    user?.id == smsitem.reciverid ? (
-                    <div className="mb-3 cursor-pointer">
-                      <div className='flex'>
-                        <p className='text-md text-white my-1 m-auto'>{moment(smsitem.date, "YYYYMMDD,h:mm:ss a").fromNow()}</p>
-                      </div>
-                      <div className={`flex gap-4 items-end ${user?.id == smsitem.senderid ? "" : "justify-end"}`}>
-                        {auth.currentUser.uid == smsitem.reciverid &&
-                          <img className="w-10 h-10 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70"
-                            src={smsitem.senderphoto} alt="" />
-                        }
-                        <div className={` ${user?.id == smsitem.senderid ? "bg-gray-700/90 rounded-t-2xl rounded-br-2xl" : "bg-sky-900 rounded-t-2xl rounded-bl-2xl"}`}>
-                          <p className="relative text-lg text-white pt-2 px-3 mr-12 mb-4 text-justify">{smsitem.sms}
-                            <span className='absolute text-sm text-white -bottom-4 -right-12 px-3'>{moment(smsitem.date, "YYYYMMDD,h:mm:ss a").format("LT")}</span>
-                          </p>
+                  <div className='flex'>
+                    <p className='text-md text-white my-1 m-auto'>{moment(smsitem.date, "YYYYMMDD,h:mm:ss a").fromNow()}</p>
+                  </div>
+                  <div className="w-135 grid grid-cols-2">
+                    {/* sender */}
+                    <div className='w-205'>
+                      {user?.id == smsitem.senderid &&
+                        <div className="mb-3 cursor-pointer">
+                          <div className={`flex gap-4 items-end ${user?.id == smsitem.senderid ? "" : "justify-end"}`}>
+                            {auth.currentUser.uid == smsitem.reciverid &&
+                              <img className="w-10 h-10 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70"
+                                src={smsitem.senderphoto} alt="Reciver Photo" />
+                            }
+                            <div className="relative bg-gray-700/90 rounded-t-2xl rounded-br-2xl">
+                              <button className="absolute right-1 top-1 cursor-pointer bg-black/20 rounded-2xl p-1 text-sm">
+                                <SlArrowDown />
+                              </button>
+                              <p className="relative text-lg text-white pt-2 px-3 mr-12 mb-4 text-justify">{smsitem.sms}
+                                <span className='absolute text-sm text-white -bottom-4 -right-12 px-3'>{moment(smsitem.date, "YYYYMMDD,h:mm:ss a").format("LT")}</span>
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      }
                     </div>
-                  ) : ("")
-                  }
+
+                    {/* reciver */}
+                    <div className='w-205'>
+                      {user?.id == smsitem.reciverid &&
+                        <div className="mb-3 cursor-pointer">
+                          <div className={`flex gap-4 items-end ${user?.id == smsitem.senderid ? "" : "justify-end"}`}>
+                            <div className="relative bg-sky-900 rounded-t-2xl rounded-bl-2xl">
+                              <button className="absolute right-1 top-1 cursor-pointer bg-black/20 rounded-2xl p-1 text-sm">
+                                <SlArrowDown />
+                              </button>
+                              <p className="relative text-lg text-white pt-2 px-3 mr-12 mb-4 text-justify">{smsitem.sms}
+                                <span className='absolute text-sm text-white -bottom-4 -right-12 px-3'>{moment(smsitem.date, "YYYYMMDD,h:mm:ss a").format("LT")}</span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -119,9 +143,8 @@ const Message = () => {
         ) : (
           <h2 className='text-5xl text-white m-auto ml-80 font-bold'>Please Click Your Friend</h2>
         )}
-
       </div>
-    </div>
+    </div >
   )
 }
 
