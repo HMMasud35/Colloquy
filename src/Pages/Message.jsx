@@ -62,8 +62,8 @@ const Message = () => {
       <div className='flex'>
         <MessagesList />
         {user?.id ? (
-          <div className='h-screen relative'>
-            <div className='bg-sky-800/95 w-6xl z-10 h-25 flex justify-between items-center p-8'>
+          <div className='h-screen w-screen bg-[url(./assets/image/bg-img-3.jpg)] bg-no-repeat bg-cover bg-center relative'>
+            <div className='bg-sky-800/95 w-325 h-25 flex justify-between items-center p-8'>
               <div className='flex gap-5'>
                 <img className='w-17 h-17 my-1 rounded-full border-3 border-white/50 shadow-sm shadow-black/70' src={user?.photo} alt="User Photo" />
                 <div>
@@ -79,15 +79,23 @@ const Message = () => {
                 </ul>
               </div>
             </div>
-            <div className='px-5 w-288 h-190 bg-[url(./assets/image/bg-img-3.jpg)] bg-no-repeat bg-cover bg-center overflow-y-scroll'>
+            <div className='px-5 h-190 w-320 overflow-y-scroll'>
               {smslist.map((smsitem) => (
                 <div>
-                  <div className='flex'>
-                    <p className='text-md text-white my-1 m-auto'>{moment(smsitem.date, "YYYYMMDD,h:mm:ss a").fromNow()}</p>
-                  </div>
-                  <div className="w-135 grid grid-cols-2">
+                  {user.id == smsitem.reciverid &&
+                    <div className='flex'>
+                      <p className='text-md text-white my-1 m-auto'>{moment(smsitem.date, "YYYYMMDD,h:mm:ss a").fromNow()}</p>
+                    </div>
+                  }
+                  {user.id == smsitem.senderid &&
+                    <div className='flex'>
+                      <p className='text-md text-white my-1 m-auto'>{moment(smsitem.date, "YYYYMMDD,h:mm:ss a").fromNow()}</p>
+                    </div>
+                  }
+
+                  <div className="w-260 grid grid-cols-2">
                     {/* sender */}
-                    <div className='w-205'>
+                    <div className='w-170'>
                       {user?.id == smsitem.senderid &&
                         <div className="mb-3 cursor-pointer">
                           <div className={`flex gap-4 items-end ${user?.id == smsitem.senderid ? "" : "justify-end"}`}>
@@ -109,7 +117,7 @@ const Message = () => {
                     </div>
 
                     {/* reciver */}
-                    <div className='w-205'>
+                    <div className='w-170'>
                       {user?.id == smsitem.reciverid &&
                         <div className="mb-3 cursor-pointer">
                           <div className={`flex gap-4 items-end ${user?.id == smsitem.senderid ? "" : "justify-end"}`}>
@@ -129,7 +137,7 @@ const Message = () => {
                 </div>
               ))}
             </div>
-            <div className='flex  justify-between items-center absolute bottom-0 left-0 bg-sky-900/95 w-6xl h-25 py-5 px-10'>
+            <div className='flex w-325  justify-between items-center absolute bottom-0 left-0 bg-sky-900/95 h-25 py-5 px-10'>
               <button className='cursor-pointer'><FiPlus className='text-5xl text-gray-400 mr-6' /></button>
               <button className='absolute cursor-pointer ml-23'><RiEmojiStickerLine className='left-32 text-4xl text-gray-400' /></button>
               <input onChange={handleSms} className='w-full h-17 bg-sky-800 px-17 rounded-2xl outline-0 text-gray-100 text-xl mr-6'
